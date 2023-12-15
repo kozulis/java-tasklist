@@ -19,6 +19,6 @@ public interface UserRepository {
 
     boolean isTaskOwner(Long userId, Long taskId);
 
-    void delete(User user);
+    void delete(Long id);
 
 }

@@ -7,6 +7,6 @@ public interface AuthService {
 
     JwtResponse login(JwtRequest loginRequest);
 
-    JwtRequest refresh(String refreshToken);
+    JwtResponse refresh(String refreshToken);
 
 }
