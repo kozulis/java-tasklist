@@ -1,19 +1,22 @@
 package ru.milovanov.tasklist.repository;
 
+import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 import ru.milovanov.tasklist.domain.task.Task;
 
 import java.util.List;
 import java.util.Optional;
 
+@Mapper
 public interface TaskRepository {
 
     Optional<Task> findById(Long id);
 
-    List<Task> findAllByUsername(Long userId);
+    List<Task> findAllByUserId(Long userId);
 
-    void assignToUserById(Long taskId, Long userId);
+    void assignToUserById(@Param("taskId") Long taskId, @Param("userId") Long userId);
 
-    void updete(Task task);
+    void update(Task task);
 
     void create(Task task);
 

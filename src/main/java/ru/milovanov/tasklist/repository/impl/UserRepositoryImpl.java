@@ -1,7 +1,6 @@
 package ru.milovanov.tasklist.repository.impl;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Repository;
 import ru.milovanov.tasklist.domain.exception.ResourceMappingException;
 import ru.milovanov.tasklist.domain.user.Role;
 import ru.milovanov.tasklist.domain.user.User;
@@ -15,7 +14,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Optional;
 
-@Repository
+//@Repository
 @RequiredArgsConstructor
 public class UserRepositoryImpl implements UserRepository {
 

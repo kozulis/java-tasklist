@@ -28,7 +28,7 @@ public class TaskServiceImpl implements TaskService {
     @Override
     @Transactional(readOnly = true)
     public List<Task> getAllByUserId(Long id) {
-        return taskRepository.findAllByUsername(id);
+        return taskRepository.findAllByUserId(id);
     }
 
     @Override
@@ -36,7 +36,7 @@ public class TaskServiceImpl implements TaskService {
         if (task.getStatus() == null) {
             task.setStatus(Status.TODO);
         }
-        taskRepository.updete(task);
+        taskRepository.update(task);
         return task;
     }
 

@@ -1,5 +1,7 @@
 package ru.milovanov.tasklist.web.controller;
 
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -19,6 +21,7 @@ import ru.milovanov.tasklist.web.mappers.UserMapper;
 @RequestMapping("/api/v1/auth")
 @RequiredArgsConstructor
 @Validated
+@Tag(name = "Auth Controller", description = "Auth API")
 public class AuthController {
 
     private final AuthService authService;
@@ -38,7 +41,8 @@ public class AuthController {
     }
 
     @PostMapping("/refresh")
-    public JwtResponse refresh(@RequestBody String refreshToken) {
+    public JwtResponse refresh(@RequestBody @Schema(description = "Refresh token",
+            example = "aERafdcbaerE.GAfcczsde.AEaddgree") String refreshToken) {
         return authService.refresh(refreshToken);
     }
 
