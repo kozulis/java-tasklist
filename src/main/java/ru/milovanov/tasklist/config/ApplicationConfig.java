@@ -5,6 +5,7 @@ import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.info.Info;
 import io.swagger.v3.oas.models.security.SecurityRequirement;
 import io.swagger.v3.oas.models.security.SecurityScheme;
+import io.swagger.v3.oas.models.servers.Server;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
@@ -22,6 +23,8 @@ import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import ru.milovanov.tasklist.web.security.JwtTokenFilter;
 import ru.milovanov.tasklist.web.security.JwtTokenProvider;
+
+import java.util.List;
 
 @Configuration
 @EnableWebSecurity
@@ -58,6 +61,9 @@ public class ApplicationConfig {
                         .title("Task list API")
                         .description("Demo Spring Boot Application")
                         .version("1.0")
+                )
+                .servers(List.of(
+                        new Server().url("http://localhost:8080"))
                 );
     }
 

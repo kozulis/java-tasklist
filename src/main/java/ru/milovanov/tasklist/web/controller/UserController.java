@@ -1,14 +1,19 @@
 package ru.milovanov.tasklist.web.controller;
 
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.MediaType;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import ru.milovanov.tasklist.domain.task.Task;
 import ru.milovanov.tasklist.domain.user.User;
 import ru.milovanov.tasklist.service.TaskService;
 import ru.milovanov.tasklist.service.UserService;
+import ru.milovanov.tasklist.utils.OpenApiResponses;
 import ru.milovanov.tasklist.web.dto.task.TaskDto;
 import ru.milovanov.tasklist.web.dto.user.UserDto;
 import ru.milovanov.tasklist.web.dto.validation.OnCreate;
@@ -32,7 +37,8 @@ public class UserController {
     private final TaskMapper taskMapper;
 
     @PutMapping
-    @Operation(summary = "Update user")
+    @OpenApiResponses(summary = "Update user", content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE,
+            schema = @Schema(implementation = UserDto.class)))
     public UserDto update(@Validated(OnUpdate.class) @RequestBody UserDto dto) {
         User user = userMapper.toEntity(dto);
         User updatedUser = userService.update(user);
@@ -40,14 +46,16 @@ public class UserController {
     }
 
     @GetMapping("/{id}")
-    @Operation(summary = "Get userDto by id")
+    @OpenApiResponses(summary = "Get userDto by id", content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE,
+            schema = @Schema(implementation = UserDto.class)))
+    @Parameter(name = "id", description = "User id", example = "1")
     public UserDto getById(@PathVariable Long id) {
         User user = userService.getById(id);
         return userMapper.toDto(user);
     }
 
     @DeleteMapping("/{id}")
-    @Operation(summary = "Delete user")
+    @Operation(summary = "Delete user", parameters = {@Parameter(name = "id", description = "User id", example = "1")})
     public void deleteById(@PathVariable Long id) {
         userService.delete(id);
     }
@@ -60,7 +68,9 @@ public class UserController {
     }
 
     @PostMapping("/{id}/tasks")
-    @Operation(summary = "Add task to user")
+    @OpenApiResponses(summary = "Add task to user", content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE,
+            schema = @Schema(implementation = TaskDto.class)))
+    @Parameter(name = "id", description = "User id", example = "1")
     public TaskDto createTask(@PathVariable Long id,
                               @Validated(OnCreate.class) @RequestBody TaskDto dto) {
         Task task = taskMapper.toEntity(dto);
