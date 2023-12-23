@@ -7,6 +7,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.MediaType;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import ru.milovanov.tasklist.domain.task.Task;
@@ -30,6 +31,7 @@ public class TaskController {
     @PutMapping
     @OpenApiResponses(summary = "Updste task", content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE,
             schema = @Schema(implementation = TaskDto.class)))
+    @PreAuthorize("canAccessTask(#dto.id)")
     public TaskDto update(@Validated(OnUpdate.class) @RequestBody TaskDto dto) {
         Task task = taskMapper.toEntity(dto);
         Task updatedTask = taskService.update(task);
@@ -40,6 +42,7 @@ public class TaskController {
     @OpenApiResponses(summary = "Get taskDto by id", content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE,
             schema = @Schema(implementation = TaskDto.class)))
     @Parameter(name = "id", description = "Task id", example = "1")
+    @PreAuthorize("canAccessTask(#id)")
     public TaskDto getById(@PathVariable Long id) {
         Task task = taskService.getById(id);
         return taskMapper.toDto(task);
@@ -47,6 +50,7 @@ public class TaskController {
 
     @DeleteMapping("{id}")
     @Operation(summary = "Delete task", parameters = {@Parameter(name = "id", description = "Task id", example = "1")})
+    @PreAuthorize("canAccessTask(#id)")
     public void deleteById(@PathVariable Long id) {
         taskService.delete(id);
     }
